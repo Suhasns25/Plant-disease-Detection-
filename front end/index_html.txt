@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Disease Detection Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Plant Disease Detection Dashboard</h1>
+    </header>
+    <div class="container">
+        <div class="about">
+            <div class="about-text">
+                <h2>About</h2>
+                <p>This project is proudly created by students of Vidyavardhaka College of Engineering (VVCE). Our website is designed with the primary goal of assisting individuals in nurturing and maintaining the health of their plants. We understand the immense effort and dedication that goes into growing plants, and it can be disheartening to see your hard work compromised by diseases.</p>
+                <p>To address this concern, we have developed an advanced AI and machine learning (AIML) model. This innovative model is capable of predicting whether your plants are afflicted with any diseases, enabling you to take timely and effective action. By leveraging this technology, we aim to empower you with the knowledge and tools needed to ensure the well-being of your plants.</p>
+                <p>We hope that our project serves as a valuable resource and provides meaningful assistance in your plant care journey. Your success in cultivating healthy plants is our ultimate reward.</p>
+            </div>
+            <img src="https://watchandlearn.scholastic.com/content/dam/classroom-magazines/watchandlearn/videos/animals-and-plants/plants/what-are-plants-/What-Are-Plants.jpg" alt="Plants">
+        </div>
+        
+        <div id="user-info">
+            <h2>User Information</h2>
+            <form id="info-form">
+                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                <input type="tel" id="phone" name="phone" placeholder="Phone Number (10-digit Indian format)" pattern="[6-9]\d{9}" required>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        
+        <div id="upload-section" style="display: none;">
+            <h2>Upload a Picture of Your Plant</h2>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <label for="plantImage" id="file-upload-btn">Choose a file</label>
+                <input type="file" id="plantImage" name="plantImage" accept="image/*" required style="display: none;">
+                <input type="submit" value="Upload and Detect">
+            </form>
+        </div>
+        
+        <div class="result">
+            {% if result %}
+                <h2>Prediction Result:</h2>
+                <p>{{ result }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        // Simulate click on hidden file input when label is clicked
+        document.getElementById("file-upload-btn").addEventListener("click", function() {
+            document.getElementById("plantImage").click();
+        });
+
+        document.getElementById("info-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var firstName = document.getElementById("firstName").value.trim();
+            var lastName = document.getElementById("lastName").value.trim();
+            var phone = document.getElementById("phone").value.trim();
+            var email = document.getElementById("email").value.trim();
+
+            // Simple validation for phone number (Indian 10-digit format)
+            var phoneRegex = /^[6-9]\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                alert("Please enter a valid 10-digit Indian phone number.");
+                return false;
+            }
+
+            // Basic email validation
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            // Display the upload section
+            document.getElementById("upload-section").style.display = "block";
+        });
+    </script>
+</body>
+</html>
